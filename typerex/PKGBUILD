@@ -1,0 +1,31 @@
+# Maintainer: Thibaut Horel <thibaut dot horel at gmail dot com>
+
+pkgname=typerex
+pkgver=1.0e
+pkgrel=1
+pkgdesc="An OCaml development environment."
+arch=('i686' 'x86_64')
+url="http://www.ocamlpro.com/typerex/"
+license=('GPL3')
+depends=('ocaml>=3.11.2' 'emacs>=23.2.1')
+optdepends=('emacs-auto-complete-git: for the auto-completion')
+install=typerex.install
+source=(http://www.ocamlpro.com/typerex/files/$pkgname-$pkgver.tar.bz2)
+md5sums=('768c53decdfa2925a9c15c790fdf0d1e')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  ./configure --bindir=/usr/bin \
+  --with-lispdir=/usr/share/emacs/site-lisp \
+  --disable-auto-complete
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver" 
+  make BINDIR="$pkgdir/usr/bin" EMACSDIR="$pkgdir/usr/share/emacs/site-lisp" install
+  install -m755 -d $pkgdir/usr/share/doc/$pkgname/
+  cp -r docs/user-manual/* $pkgdir/usr/share/doc/$pkgname/
+  install -m644 AUTHORS $pkgdir/usr/share/doc/$pkgname/
+  install -m644 -D emacs.append $pkgdir/usr/share/$pkgname/config.el
+}
