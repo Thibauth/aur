@@ -1,0 +1,25 @@
+# Maintainer: Thibaut Horel <thibaut dot horel at gmail dot com>
+pkgname=dircproxy
+pkgver=1.2.0_RC1
+pkgrel=1
+pkgdesc="An IRC proxy server (bouncer)"
+arch=('i686' 'x86_64')
+url="http://code.google.com/p/dircproxy/downloads/list"
+license=('GPL2')
+source=(http://dircproxy.googlecode.com/files/$pkgname-${pkgver//_/-}.tar.gz)
+sha1sums=('7dc4b3aa2e10222f74e280de69c41f571335a96b')
+
+build() {
+  cd "$srcdir/$pkgname-${pkgver//_/-}"
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname-${pkgver//_/-}"
+  make DESTDIR="$pkgdir/" install
+  install -d $pkgdir/usr/share/doc/$pkgname
+  install -m644 INSTALL NEWS README FAQ ChangeLog AUTHORS $pkgdir/usr/share/doc/$pkgname
+}
+
+# vim:set ts=2 sw=2 et:
