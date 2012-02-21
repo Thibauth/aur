@@ -4,14 +4,18 @@ pkgver=1.2.0_RC1
 pkgrel=1
 pkgdesc="An IRC proxy server (bouncer)"
 arch=('i686' 'x86_64')
-url="http://code.google.com/p/dircproxy/downloads/list"
+url="http://code.google.com/p/dircproxy/"
 license=('GPL2')
-source=(http://dircproxy.googlecode.com/files/$pkgname-${pkgver//_/-}.tar.gz)
-sha1sums=('7dc4b3aa2e10222f74e280de69c41f571335a96b')
-
+groups=()
+backup=('etc/dircproxyrc')
+source=("http://dircproxy.googlecode.com/files/$pkgname-${pkgver//_/-}.tar.gz"
+	"dircproxy" "dircproxy.conf.d")
+sha1sums=('7dc4b3aa2e10222f74e280de69c41f571335a96b'
+          '6091337394662e91b673dc87eb58f4bf55b18148'
+          '5c32c5f6f1910e4c13c0473da0aac766ce52f5b9')
 build() {
   cd "$srcdir/$pkgname-${pkgver//_/-}"
-  ./configure --prefix=/usr
+  ./configure --prefix=/usr --sysconfdir=/etc
   make
 }
 
@@ -20,6 +24,9 @@ package() {
   make DESTDIR="$pkgdir/" install
   install -d $pkgdir/usr/share/doc/$pkgname
   install -m644 INSTALL NEWS README FAQ ChangeLog AUTHORS $pkgdir/usr/share/doc/$pkgname
+  install -Dm644 conf/dircproxyrc.sample $pkgdir/etc/dircproxyrc
+  install -Dm755 ../../dircproxy $pkgdir/etc/rc.d/dircproxy
+  install -Dm644 ../../dircproxy.conf.d $pkgdir/etc/conf.d/dircproxy  
 }
 
 # vim:set ts=2 sw=2 et:
