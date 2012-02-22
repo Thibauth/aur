@@ -11,7 +11,7 @@ backup=('etc/dircproxyrc')
 source=("http://dircproxy.googlecode.com/files/$pkgname-${pkgver//_/-}.tar.gz"
 	"dircproxy" "dircproxy.conf.d")
 sha1sums=('7dc4b3aa2e10222f74e280de69c41f571335a96b'
-          '6091337394662e91b673dc87eb58f4bf55b18148'
+          'feb1e2d43fdadd4b23e8fb78ec8e2bfc61208a14'
           '5c32c5f6f1910e4c13c0473da0aac766ce52f5b9')
 build() {
   cd "$srcdir/$pkgname-${pkgver//_/-}"
